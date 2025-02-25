@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1><b>Sveiki atvykę į Vyrtuvę</b></h1>
+<br><br><br>
+<div class="row">
+    {% for receptas in receptai %}
+    <div class="col-sm-6 col-md-3 d-flex align-items-stretch">
+        <div class="card mb-4 shadow">
+            {% if receptas.nuotrauka %}
+            <img class="card-img-top" src="{{ receptas.nuotrauka.url }}"/>
+            {% endif %}
+            <div>
+                <a href="{% url 'recipe' receptas.id %}">{{ receptas.titulas }}</a>
+                <br>
+                <a href="{% url 'recipe' receptas.id %}">{{ receptas.vidutinis_reitingas|floatformat:2 }}/5
+                    ({{receptas.reitingu_kiekis}})</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if receptai.has_other_pages %}
+<ul class="pagination pagination-sm">
+    {% for nr in receptai.paginator.page_range %}
+    {% if receptai.number == nr %}
+    <li class="page-item active">
+        <a class="page-link" href="">{{ nr }}</a>
+    </li>
+    {% else %}
+    <!-- Padaro kitus puslapius ir kad nesiresetintu query pakeitus puslapį -->
+    <li class="page-item">
+        <a class="page-link"
+           href="?page={{ nr }}
+           {% if query %}&query={{ query }}{% endif %}
+           {% if min_rating %}&min_rating={{ min_rating }}{% endif %}
+           {% if vegetarian is not none %}&ar_vegetariskas={{ vegetarian }}{% endif %}
+           {% if vegan is not none %}&ar_veganiskas={{ vegan }}{% endif %}
+           {% if favoritas is not none %}&favoritas={{ favoritas }}{% endif %}">
+            {{ nr }}
+        </a>
+    </li>
+    {% endif %}
+    {% endfor %}
+</ul>
+{% endif %}
+
+<!-- Visi filtrų mygtukai pridedantys url dalį, kad butų įmanoma query ir keičiantys savo stilių priklausant nuo url -->
+
+<form method="GET" action="{% url 'index' %}">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="query" value="{{ query }}"
+               placeholder="Ieškoti receptų pagal pavadinimą, aprašą ir raktažodžius">
+        <button class="btn btn-primary register-button" type="submit">Ieškoti</button>
+        <button style="background-color: #665840;" class="btn btn-secondary" type="reset"
+                onclick="window.location.href='?';">Išjungti filtrus
+        </button>
+    </div>
+</form>
+
+
+<div class="filters">
+    <div class="filter-rating">
+        <h5>Filtruoti pagal Įvertinimą:</h5>
+        <a href="?min_rating=1"
+           class="btn {% if min_rating == '1' %}btn-primary{% else %}btn-outline-primary{% endif %}">1</a>
+        <a href="?min_rating=2"
+           class="btn {% if min_rating == '2' %}btn-primary{% else %}btn-outline-primary{% endif %}">2</a>
+        <a href="?min_rating=3"
+           class="btn {% if min_rating == '3' %}btn-primary{% else %}btn-outline-primary{% endif %}">3</a>
+        <a href="?min_rating=4"
+           class="btn {% if min_rating == '4' %}btn-primary{% else %}btn-outline-primary{% endif %}">4</a>
+        <a href="?min_rating=5"
+           class="btn {% if min_rating == '5' %}btn-primary{% else %}btn-outline-primary{% endif %}">5</a>
+    </div>
+
+    <div class="filter-vegetarian">
+        <h5>Vegetariški:</h5>
+        <a href="?ar_vegetariskas=True"
+           class="btn {% if vegetarian == True %}btn-primary{% else %}btn-outline-primary{% endif %}">Taip</a>
+        <a href="?ar_vegetariskas=False"
+           class="btn {% if vegetarian == False %}btn-primary{% else %}btn-outline-primary{% endif %}">Ne</a>
+    </div>
+
+    <div class="filter-vegan">
+        <h5>Veganiški:</h5>
+        <a href="?ar_veganiskas=True"
+           class="btn {% if vegan == True %}btn-primary{% else %}btn-outline-primary{% endif %}">Taip</a>
+        <a href="?ar_veganiskas=False"
+           class="btn {% if vegan == False %}btn-primary{% else %}btn-outline-primary{% endif %}">Ne</a>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="filter-favorites">
+        <h5>Favoritai:</h5>
+        <a href="?favoritas=True"
+           class="btn {% if favoritas == True %}btn-primary{% else %}btn-outline-primary{% endif %}">Taip</a>
+        <a href="?favoritas=False"
+           class="btn {% if favoritas == False %}btn-primary{% else %}btn-outline-primary{% endif %}">Ne</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+

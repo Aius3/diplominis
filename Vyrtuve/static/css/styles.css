@@ -1,0 +1,132 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    place-items: center;
+    flex-direction: column;
+    background-color: #f2e4ce !important;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+footer {
+    background-color: #665840;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+}
+
+main {
+     flex-grow: 1;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    color: #000000;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.container.register {
+    max-width: 500px;
+    margin-top: 30px;
+}
+
+form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+form label {
+    display: block;
+}
+
+form .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+form button {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1.25rem;
+}
+
+.alert-danger {
+    margin-top: 10px;
+}
+
+.reset-btn {
+    background-color: #f44336; /* Red color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.reset-btn:hover {
+    background-color: #e53935;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tags-container {
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+}
+.tags-container ul {
+    list-style-type: none;
+    padding: 0;
+}
+.tags-container li {
+    margin-bottom: 5px;
+}
+.recipe-image {
+    width: 600px;
+    height: 400px;
+    object-fit: cover;
+}
+.ingredients-instructions {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+.section {
+    flex: 1;
+}
+
+
+

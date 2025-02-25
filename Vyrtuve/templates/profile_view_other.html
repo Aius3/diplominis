@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <img class="rounded-circle" src="{{ profile.nuotrauka.url }}"/>
+    <h2>{{ profile.vardas }}<img src="{{ profile.prestizas.ikona.url }}" style="width: 25px; height: 25px;"></h2>
+    <p>{{ profile.aprasas }}</p>
+    <p>Prestižo taškai: {{ profile.prestizo_taskai }}</p>
+    <p>Prestižo lygis: {{ profile.prestizas.lygio_pavadinimas }}</p>
+    <p>Email: {{ profile.profilis.email }}</p>
+</div>
+
+<div>
+    <h4>Mėgstamiausi receptai</h4>
+
+    <div class="row">
+        {% for receptas in favorite_recipes %}
+        <div class="col-sm-6 col-md-3 d-flex align-items-stretch">
+            <div class="card mb-4 shadow">
+                <img class="card-img-top" src="{{ receptas.nuotrauka.url }}"/>
+                <div>
+                    <a href="{% url 'recipe' receptas.id %}">{{ receptas.titulas }}</a>
+                    <br>
+                    <a href="{% url 'recipe' receptas.id %}">{{ receptas.vidutinis_reitingas|floatformat:2 }}/5 ({{ receptas.reitingu_kiekis }})</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>Šis vartotojas nepažymėjo jokio recepto kaip favorito.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<div>
+    <h4>Įkelti receptai</h4>
+
+    <div class="row">
+        {% for receptas in uploaded_recipes %}
+        <div class="col-sm-6 col-md-3 d-flex align-items-stretch">
+            <div class="card mb-4 shadow">
+                <img class="card-img-top" src="{{ receptas.nuotrauka.url }}"/>
+                <div>
+                    <a href="{% url 'recipe' receptas.id %}">{{ receptas.titulas }}</a>
+                    <br>
+                    <a href="{% url 'recipe' receptas.id %}">{{ receptas.vidutinis_reitingas|floatformat:2 }}/5 ({{ receptas.reitingu_kiekis }})</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>Šis vartotojas neįkėlė jokio recepto.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<head>
+    <style>
+        body {background-image: url('media/fonas.png'); !important}
+    </style>
+</head>
+<body>
+
+<div>
+    <img class="rounded-circle" src="{{ user.profilis.nuotrauka.url }}"/>
+    <h2>{{ user.username }} <img src="{{ user.profilis.prestizas.ikona.url }}" style="width: 25px; height: 25px;"></h2>
+    <p> {{ user.email }}</p>
+    <p>Prestižo taškai: {{ user.profilis.prestizo_taskai }}</p>
+</div>
+<div>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h4>Redaguoti profilį</h4>
+
+        {{ u_form | crispy }}
+        {{ p_form | crispy }}
+
+        <div>
+            <input type="submit" class="btn btn-outline-success" value="Išsaugoti pakeitimus"/>
+        </div>
+    </form>
+</div>
+{% endblock %}
+</body>

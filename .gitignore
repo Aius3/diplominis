@@ -1,0 +1,9 @@
+/Diplominis/secret.py
+/Vyrtuve/migrations/
+venv/
+.venv/
+.idea/
+__pycache__/
+*.py[cod]
+*$py.class
+/media/receptai(pasene)/

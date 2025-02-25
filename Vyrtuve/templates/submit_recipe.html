@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Pateikite savo receptą</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Recepto pavadinimas</label>
+        {{ form.titulas }}
+    </div>
+
+    <div class="form-group">
+        <label>Recepto aprašymas</label>
+        {{ form.aprasas }}
+    </div>
+
+    <div class="form-group">
+        <label>Ingridientai</label>
+        {{ form.ingridientai }}
+    </div>
+
+    <div class="form-group">
+        <label>Instrukcijos</label>
+        {{ form.instrukcijos }}
+    </div>
+
+    <div class="form-group">
+        <label>Recepto nuotrauka</label>
+        <input type="file" name="nuotrauka" required/>
+    </div>
+
+    <div class="form-group">
+        <label>Gaminimo laikas (min)</label>
+        {{ form.gaminimo_laikas }}
+    </div>
+
+    <div class="form-group">
+        <label>Veganinis receptas</label>
+        {{ form.ar_veganiskas }}
+    </div>
+
+    <div class="form-group">
+        <label>Vegetariškas receptas</label>
+        {{ form.ar_vegetariskas }}
+    </div>
+
+    <div class="form-group">
+        <label>Raktazodziai</label>
+
+        <input type="text" id="tag-search" placeholder="Ieškoti raktažodžių..." class="form-control mb-3">
+
+        <div class="tags-container">
+            {% for tag in form.raktazodziai %}
+            <div class="tag-item">
+                {{ tag }} {{ tag.label }}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Pasirinkite šabloną</label>
+        {{ form.sablonas }}
+    </div>
+
+    <button type="submit" class="btn btn-primary register-button">Pateikti receptą</button>
+</form>
+
+<style>
+    .tags-container {
+      max-height: 200px !important;
+      overflow-y: auto !important;
+      border: 1px solid #ccc !important;
+      padding: 10px !important;
+      margin-top: 10px !important;
+      margin-bottom: 20px !important;
+    }
+
+    .tag-item {
+      margin-bottom: 10px !important;
+    }
+
+    .tags-container input[type="checkbox"] {
+      margin-right: 10px !important;
+    }
+</style>
+
+<!-- Skriptas skirtas filtruoti raktažodžius -->
+
+<script>
+    document.getElementById('tag-search').addEventListener('input', function() {
+      let searchValue = this.value.toLowerCase();
+      let tagItems = document.querySelectorAll('.tag-item');
+
+      tagItems.forEach(function(tagItem) {
+        let tagLabel = tagItem.querySelector('label').textContent.toLowerCase();
+
+        if (tagLabel.includes(searchValue)) {
+          tagItem.style.display = 'block';
+        } else {
+          tagItem.style.display = 'none';
+        }
+      });
+    });
+</script>
+{% endblock %}
+
+

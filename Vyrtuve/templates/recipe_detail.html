@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h5>NEPASIRINKTAS ŠABLONAS</h5>
+<img class="rounded-circle" src="{{ recipe_user.profilis.nuotrauka.url }}"/>
+<h4>{{ recipe.profilis.profilis }}<img src="{{ recipe_user.profilis.prestizas.ikona.url }}" style="width: 25px; height: 25px;"></h4>
+{% if current_user.username == recipe_user.username %}
+
+<a href="/profile/">Tavo profilis</a>
+{% else %}
+
+<a href="{% url 'view-other-profile' username=recipe_user.username %}">Eiti į profilį</a>
+{% endif %}
+
+
+<img class="recipe-image" src="{{ recipe.nuotrauka.url }}" alt="{{ recipe.titulas }}">
+<br><br>
+<h2>{{ recipe.titulas }}</h2>
+<p>{{ recipe.aprasas }}</p>
+<br>
+<div class="ingredients-instructions">
+    <div class="section">
+        <h4>Ingridientai:</h4>
+        <p>{{ recipe.ingridientai|linebreaksbr }}</p>
+    </div>
+
+    <div class="section">
+        <h4>Instrukcijos:</h4>
+        <p>{{ recipe.instrukcijos|linebreaksbr }}</p>
+    </div>
+</div>
+
+<p>Gaminimo laikas: {{ recipe.gaminimo_laikas }} min.</p>
+<p>Vidutinis įvertinimas: {{ recipe.vidutinis_reitingas|floatformat:2 }} / 5</p>
+<p>{{ recipe.reitingu_kiekis }} Balsų ir {{ recipe.favoritu_kiekis }} Favoritų</p>
+<p>{% if recipe.ar_vegetariskas %}
+    vegetariškas
+    {% endif %}
+    {% if recipe.ar_veganiskas %}
+    veganiškas
+    {% endif %}
+</p>
+{% if recipe.nuotrauka %}
+<img class="recipe-image" src="{{ recipe.nuotrauka.url }}" alt="{{ recipe.titulas }}">
+{% endif %}
+
+<h4>Raktažodžiai:</h4>
+<div class="tags-container">
+    <ul>
+        {% for tag in recipe.raktazodziai_recepto.all %}
+        <li>{{ tag.raktazodis }}</li>
+        {% empty %}
+        <li>Raktažodžių nėra</li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% if user.is_authenticated %}
+<h3>Įvertinkite Receptą</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{ rating_form.as_p }}
+    <button class="btn btn-primary register-button" type="submit" name="rating">Įvertinkite</button>
+</form>
+
+<h3>Palikite Komentarą</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <button class="btn btn-primary register-button" type="submit" name="comment">Komentuokite</button>
+</form>
+{% endif %}
+
+<h3>Komentarai</h3>
+{% for comment in comments %}
+<div class="comment">
+    <br>
+
+    <div>
+        <img src="{{ comment.profilis.prestizas.ikona.url }}" alt="Commenter's Prestige Icon"
+             style="width: 20px; height: 20px; margin-left: 5px;"/>
+        <small><b>By: {{ comment.profilis.profilis }} Date: {{ comment.data|date:"Y-m-d H:i" }}</b></small>
+    </div>
+    <p>{{ comment.turinys }}</p>
+</div>
+{% endfor %}
+
+
+<h3>Rekomenduojami receptai</h3>
+<div class="row">
+    {% for recommended_recipe in recommended_recipes %}
+    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+        <div class="card shadow">
+            {% if recommended_recipe.nuotrauka %}
+            <img class="card-img-top" src="{{ recommended_recipe.nuotrauka.url }}"
+                 alt="{{ recommended_recipe.titulas }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a href="{% url 'Receptas' recommended_recipe.id %}">{{ recommended_recipe.titulas }}</a>
+                </h5>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>Nėra rekomenduojamų receptų.</p>
+    {% endfor %}
+</div>
+{% endblock %}

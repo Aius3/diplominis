@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Favoritai</h3>
+<br>
+<div class="row">
+    {% for receptas in favorited_recipes %}
+    <div class="col-sm-6 col-md-3 d-flex align-items-stretch">
+        <div class="card mb-4 shadow">
+            <img class="card-img-top" src="{{ receptas.nuotrauka.url }}"/>
+            <div>
+                <a href="{% url 'recipe' receptas.id %}">{{ receptas.titulas }}</a>
+                <br>
+                <a href="{% url 'recipe' receptas.id %}">{{ receptas.vidutinis_reitingas|floatformat:2 }}/5 ({{ receptas.reitingu_kiekis }})</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>!Neturite favoritų!</p>
+
+    {% endfor %}
+</div>
+<br><br>
+<h3>Įkelti Receptai</h3>
+<br>
+<div>
+    <div class="row">
+        {% for receptas in uploaded_recipes %}
+        <div class="col-sm-6 col-md-3 d-flex align-items-stretch">
+            <div class="card mb-4 shadow">
+                <img class="card-img-top" src="{{ receptas.nuotrauka.url }}"/>
+                <div>
+                    <a href="{% url 'recipe' receptas.id %}">{{ receptas.titulas }}</a>
+                    <br>
+                    <a href="{% url 'recipe' receptas.id %}">{{ receptas.vidutinis_reitingas|floatformat:2 }} /5 ({{ receptas.reitingu_kiekis }})</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>!Neturite įkeltų receptų!</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
