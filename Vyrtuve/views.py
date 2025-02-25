@@ -20,6 +20,7 @@ def index(request):
 
     Be to ši funkcija irgi pasirūpina index.html elementų rūšiavimu, puslapiavimu ir duplikatų panaikinimu.
     """
+
     query = request.GET.get('query', '')
 
     min_rating = request.GET.get('min_rating', None)
