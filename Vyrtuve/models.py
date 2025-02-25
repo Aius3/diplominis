@@ -73,7 +73,7 @@ class Profilis(models.Model):
     def update_prestige_level(self):
         """
         update_prestige_level() yra iškviečiama vartotojui įvedus favoritą arba reitingą.
-        (nes tai iškviečia recalculate_prestige, kuris iškviečia šią funkciją)
+        (nes tai iškviečia recalculate_prestige, kuris iškviečia šią funkciją).
 
         Šios funkcijos darbas yra paskirti tinkamą prestižo lygį atsižvelgiant į profilio prestižo taškus
         ir prestižo lygio taškų reikalavimus.
